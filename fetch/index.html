@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Fetch countries</title>
+
+	<style type="text/css">
+		#response {
+			width: 700px;
+			height: 700px;
+			border: solid 1px #000;
+			background: #2e2e2e;
+			color: #fff;
+			overflow: scroll;
+		}
+	</style>
+</head>
+<body>
+
+	<button>Get all countries</button>
+	<div id="response"></div>
+
+  <script type="text/javascript">
+  	
+  	const url='https://restcountries.eu/rest/v2/all';
+  	const dataResp=fetch(url);
+
+  	dataResp
+  		.then(resp => resp.json())
+  		.then((data) => {
+
+  			document.getElementById('response').innerHTML=JSON.stringify(data);
+
+  		})
+  		.catch(console.err)
+
+  </script>
+</body>
+</html>
