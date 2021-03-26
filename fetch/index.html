@@ -16,22 +16,46 @@
 </head>
 <body>
 
-	<button>Get all countries</button>
+	<input type="text" name="countryName" id="countryName">
+	<button onclick="searchCountry()">Get all countries</button>
+	<span id="httpStatus"></span>
 	<div id="response"></div>
 
   <script type="text/javascript">
-  	
-  	const url='https://restcountries.eu/rest/v2/all';
-  	const dataResp=fetch(url);
 
-  	dataResp
-  		.then(resp => resp.json())
-  		.then((data) => {
+  	const countryName=document.getElementById('countryName');
+  	countryName.addEventListener('focus', (e) => {
+  		document.getElementById('httpStatus').innerHTML='';
+  	});
 
-  			document.getElementById('response').innerHTML=JSON.stringify(data);
+  	function searchCountry() {
 
-  		})
-  		.catch(console.err)
+  		const countryName=document.getElementById('countryName').value.trim();
+
+	  	if (countryName == '') {
+
+	  		alert('Country name is required!');
+	  		return false;
+	  	}
+
+  		// const url='https://restcountries.eu/rest/v2/all';
+  		const url=`https://restcountries.eu/rest/v2/name/${countryName}`;
+  		const dataResp=fetch(url);
+
+  		const httpStatus=document.getElementById('httpStatus');
+
+  		httpStatus.innerHTML='Loanding...';
+
+	  	dataResp
+	  		.then(resp => resp.json())
+	  		.then((data) => {
+
+	  			document.getElementById('response').innerHTML=JSON.stringify(data);
+	  			httpStatus.innerHTML='Success...';
+
+	  		})
+	  		.catch((e) => httpStatus.innerHTML=e.message)
+  	}
 
   </script>
 </body>
